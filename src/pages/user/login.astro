@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Masuk</title>
+  <style>
+    /* Form container */
+    .login-form {
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      padding: 30px;
+      max-width: 400px;
+      margin: 40px auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      color: #333
+    }
+
+    /* Title */
+    .form-title {
+      font-size: 1.5rem;
+      color: #222;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    /* Input container */
+    .input-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+    }
+
+    /* Input field */
+    .input-container input {
+      background: none;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 15px 12px;
+      font-size: 1rem;
+      color: #333;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      width: 100%;
+      outline: none;
+    }
+
+    .input-container input:focus {
+      border-color: #f39c12;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Floating label */
+    .input-container label {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1rem;
+      color: #888;
+      transition: top 0.3s, font-size 0.3s, color 0.3s;
+      pointer-events: none;
+    }
+
+    .input-container input:focus + label,
+    .input-container input:not(:placeholder-shown) + label {
+      top: -3px;
+      padding: 5px;
+      background-color: #fff;
+      font-size: 0.85rem;
+      color: #333;
+    }
+
+    /* Submit button */
+    .submit-button {
+      background: #333;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 12px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+
+    .submit-button:hover {
+      background: #f39c12;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .submit-button:focus {
+      outline: none;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    a {
+        color: #333;
+    }
+    a:hover {
+        color: #f39c12;
+    } 
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .login-form {
+        padding: 20px;
+      }
+
+      .form-title {
+        font-size: 1.2rem;
+      }
+
+      .input-container input {
+        padding: 12px 10px;
+        font-size: 0.9rem;
+      }
+
+      .submit-button {
+        font-size: 0.9rem;
+        padding: 10px 16px;
+      }
+    }
+  </style>
+</head>
+
+
+<body>
+  <form class="login-form">
+    <h1 class="form-title">Masuk</h1>
+
+    <!-- Name input -->
+    <div class="input-container">
+      <input type="text" id="name" name="name" placeholder=" " required />
+      <label for="name">Nama Lengkap</label>
+    </div>
+
+    <!-- Password input -->
+    <div class="input-container">
+      <input type="password" id="password" name="password" placeholder=" " required />
+      <label for="password">Password</label>
+    </div>
+
+    <!-- Submit button -->
+    <button type="submit" class="submit-button">Masuk</button>
+    <p>Belum memiliki akun? <a href="/user/register">Daftar.</a></p>
+  </form>
+  
+
+  <!-- java script -->
+
+  <script>
+    document.querySelector('.login-form').addEventListener('submit', async function (e) {
+      e.preventDefault(); // Mencegah reload halaman
+  
+      // Ambil data dari form
+      const name = document.getElementById('name').value.trim();
+      const password = document.getElementById('password').value.trim();
+  
+      // Validasi dasar
+      if (!name ||  !password) {
+        alert('Semua field wajib diisi.');
+        return;
+      }
+  
+      // Siapkan data untuk dikirim
+      const requestData = {
+        username: name,
+        password
+      };
+
+  
+      try {
+        // Kirim data ke endpoint API
+        const response = await fetch('http://localhost:3000/users/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(requestData)
+        });
+  
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Gagal mengirim data.');
+        }
+  
+        const responseData = await response.json(); 
+        
+        const userData = responseData.user;
+        console.log(userData);
+        
+        const {username, id} = userData;
+
+        localStorage.setItem('user', id);
+        localStorage.setItem('username', username);
+
+        alert('Login berhasil: ' + JSON.stringify(responseData.message));
+        // Pindah ke halaman login
+        window.location.href = '/';
+
+      } catch (error) {
+        alert('Terjadi kesalahan: ' + error.message);
+      }
+    });
+  </script>
+  
+</body>
+</html>

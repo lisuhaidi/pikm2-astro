@@ -1,0 +1,22 @@
+---
+import Layout from '../../../layouts/BaseLayout.astro';
+import EditBio from '../../../components/EditBio.jsx';
+
+
+
+const {id} = Astro.params
+
+const endpoint = `http://localhost:3000/users/${id}`
+// Fetch data dari API
+const response = await fetch(endpoint);
+if (!response.ok) {
+  throw new Error('Failed to fetch message');
+}
+const user = await response.json();
+
+const {_id, bio } = user;
+---
+
+<Layout title=Profil>
+    <EditBio id={_id} bio={bio} client:only="react"/>
+</Layout>

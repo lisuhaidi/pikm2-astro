@@ -1,0 +1,48 @@
+---
+import Layout from '../layouts/BaseLayout.astro';
+import Card from '../components/Card.astro';
+import axios from 'axios';
+
+let reversedMessages = [];
+
+async function loadMessages() {
+  const response = await axios.get('http://localhost:3000/messages');
+  reversedMessages = response.data.reverse();
+}
+
+await loadMessages();
+
+
+// const response = await fetch('http://localhost:3000/messages');
+// const messages = await response.json();
+// const reversedMessages = messages.reverse();
+// untuk props
+
+---
+<Layout title="Beranda">
+  <div class="homebox">
+    {reversedMessages.map((message) => (
+    
+      <Card 
+        href={`/message/${message._id}`}
+        text={message.text}
+        likes={message.likes}
+        createdAt={message.createdAt}
+        _id={message._id}
+        user={message.user}
+      />
+
+    ))}
+  </div>
+</Layout>
+
+<style>
+   .homebox {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+</style>

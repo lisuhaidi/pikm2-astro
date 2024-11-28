@@ -1,0 +1,8 @@
+---
+import Layout from '../layouts/BaseLayout.astro';
+import PostForm from '../components/PostForm.jsx';
+---
+
+<Layout title="Tulis Pesan">
+  <PostForm client:only="react"/>
+</Layout>

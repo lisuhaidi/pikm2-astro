@@ -1,0 +1,150 @@
+---
+
+import Layout from '../../layouts/BaseLayout.astro';
+
+---
+
+<Layout title=Profil>
+    <div class="profile-box">
+        <h3 id="nameTitle"></h3>
+        <div>
+            <p id="bio"></p>
+            <a href="#" class="edit-bio" id="edit-bio">Ubah bio</a>
+        </div>
+        <button id="logout-button">Logout</button>
+    </div>
+
+    <style>
+        /* Profile Box Container */
+.profile-box {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 400px;
+  margin: 40px auto;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Name Title */
+#nameTitle {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* Bio Section */
+#bio {
+  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* "Ubah bio" link */
+.profile-box a {
+  font-size: 1rem;
+  color: #333;
+  font-weight: 600;
+  display: inline-block;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.profile-box a:hover {
+  color: #f39c12;
+}
+
+/* Logout Button */
+#logout-button {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  transition: background 0.3s;
+}
+
+#logout-button:hover {
+  background-color: #f39c12;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#logout-button:focus {
+  outline: none;
+}
+
+    </style>
+    
+
+<script>
+    const username = localStorage.getItem('username');
+    const user = localStorage.getItem('user');
+
+
+    if (user) { // Pastikan bahwa `user` ada
+    const endpoint = `http://localhost:3000/users/${user}`;
+
+    try {
+        const response = await fetch(endpoint);
+
+        // Cek apakah responsnya sukses
+        if (!response.ok) {
+        throw new Error('Gagal memuat data user');
+        }
+
+        // Ambil data JSON dari respons
+        const data = await response.json();
+        console.log(data); // Tampilkan data yang diterima dari endpoint
+
+        // Modifikasi DOM berdasarkan data yang diterima
+        const nameTitle = document.getElementById('nameTitle');
+        const bio = document.getElementById('bio');
+        // mengubah link edit-bio
+        const editBio = document.getElementById('edit-bio');
+
+        if (nameTitle) {
+        nameTitle.textContent = data.username; // Update nama pengguna
+        }
+
+        if (bio) {
+        bio.innerHTML = data.bio || 'No bio available'; // Update bio, atau tampilkan pesan default
+        }
+
+        if (editBio) {
+            editBio.href = `/user/bio/${data._id}`
+        }
+
+    } catch (error) {
+        // Tangani error jika ada
+        console.error('Terjadi kesalahan:', error);
+        alert('Terjadi kesalahan saat memuat data user');
+    }
+    } else {
+    console.log('User tidak ditemukan di localStorage');
+    }
+    
+
+
+    // fungsi hapus data
+  document.getElementById('logout-button').addEventListener('click', function () {
+    // Hapus data dari localStorage
+    localStorage.removeItem('user');
+    localStorage.removeItem('username');
+
+    // Redirect ke halaman logout
+    window.location.href = '/';
+  });
+</script>
+
+</Layout>
+

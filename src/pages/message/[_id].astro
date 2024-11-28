@@ -1,0 +1,100 @@
+---
+// Import Layout dan komponen
+import Layout from '../../layouts/BaseLayout.astro';  
+import CardMessage from '../../components/CardMessage.astro';
+import EditAndDeleteMenu from '../../components/EditAndDeleteMenu.jsx'
+// Fetch data dari API menggunakan axios
+import axios from 'axios';
+// Ambil parameter _id dari URL
+const { _id } = Astro.params;
+const endpoint = `http://localhost:3000/messages/${_id}`;
+
+let message;
+try {
+  const response = await axios.get(endpoint);
+  message = response.data;
+} catch (error) {
+  throw new Error('Failed to fetch message: ' + error.message);
+}
+
+console.log(message.user);
+
+---
+<Layout title="Postingan">
+  <div class="postbox">
+    <div class="menu-box">
+      <button id="backButton">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+      </button>
+      <EditAndDeleteMenu
+        user={message.user}
+        id={_id} 
+        client:only="react" 
+        />
+    </div>
+    <CardMessage 
+      href={`#`}
+      text={message.text}
+      likes={message.likes}
+      createdAt={message.createdAt}
+      _id={message._id}
+      user={message.user}
+    />
+  </div>
+</Layout>
+
+<style>
+  .postbox{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0 0 20px 0;
+  }
+  a {
+    text-decoration: none;
+    color: #333;
+  }
+
+  .menu-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .menu-box button {
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .menu-box button:hover {
+    background-color: #f39c12;
+  }
+
+  .menu-box button svg {
+    fill: white;
+    width: 15px;
+  }
+
+  #idPost {
+    display: none;
+  }
+</style>
+
+<script>
+  // back button
+  document.querySelector('#backButton').addEventListener('click', () => {
+    if (document.referrer) {
+      history.back();
+    } else {
+      window.location.href = '/'; // Fallback jika tidak ada halaman sebelumnya
+    }
+  });
+
+
+</script>

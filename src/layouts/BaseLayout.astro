@@ -1,0 +1,70 @@
+---
+import Navbar from '../components/Navbar.astro';
+
+export const props = {
+  title: String,
+};
+
+const {title} = Astro.props;
+
+const navbarLinks = [
+  { href: "/", label: "" },
+  { href: "/post", label: "Post" },
+];
+---
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <link rel="stylesheet" href="../styles/global.css" />
+</head>
+<body>
+  <Navbar class="nav"/>
+  <main>
+    <slot />
+  </main>
+  <footer>
+    <p>&copy; 2024 My Astro Website</p>
+  </footer>
+</body>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    
+  }
+
+
+  main {
+    margin: 0 20px 0 20px;
+    padding-top: 80px;
+  }
+  
+  header {
+    background: #333;
+    color: white;
+  }
+  
+  
+  a {
+    color: white;
+    text-decoration: none;
+  }
+  
+</style>
+
+<script>
+  const username = localStorage.getItem('username');
+
+  if (!username) {
+     // Pindah ke halaman login
+     window.location.href = '/user/login';
+     alert('Anda harus login terlebih dahulu');
+  }
+
+</script>
+</html>

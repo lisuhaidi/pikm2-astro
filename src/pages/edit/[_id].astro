@@ -1,0 +1,21 @@
+---
+import Layout from '../../layouts/BaseLayout.astro';
+import EditForm from '../../components/EditForm.jsx';
+
+const { _id } = Astro.params;
+
+const endpoint = `http://localhost:3000/messages/${_id}`
+// Fetch data dari API
+const response = await fetch(endpoint);
+if (!response.ok) {
+  throw new Error('Failed to fetch message');
+}
+const message = await response.json();
+
+const {likes, text } = message
+
+---
+
+<Layout title="Tulis Pesan">
+    <EditForm id={_id} likes={likes} text={text} client:only="react"/>
+</Layout>
