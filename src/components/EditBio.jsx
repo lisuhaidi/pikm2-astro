@@ -29,7 +29,7 @@ export default function EditForm({id, bio}) {
     };
 
     try {
-      const response = await axios.put(`http://localhost:3000/users/update-bio/${id}`, postData, {
+      const response = await axios.put(`https://pikm-pj8ksyy1gtrn.deno.dev/user/update-bio/${id}`, postData, {
         headers: {
           'Content-Type': 'application/json',
         },

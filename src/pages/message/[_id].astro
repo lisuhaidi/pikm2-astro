@@ -7,7 +7,7 @@ import EditAndDeleteMenu from '../../components/EditAndDeleteMenu.jsx'
 import axios from 'axios';
 // Ambil parameter _id dari URL
 const { _id } = Astro.params;
-const endpoint = `http://localhost:3000/messages/${_id}`;
+const endpoint = `https://pikm-pj8ksyy1gtrn.deno.dev/messages/${_id}`;
 
 let message;
 try {

@@ -4,7 +4,7 @@ import EditForm from '../../components/EditForm.jsx';
 
 const { _id } = Astro.params;
 
-const endpoint = `http://localhost:3000/messages/${_id}`
+const endpoint = `https://pikm-pj8ksyy1gtrn.deno.dev/messages/${_id}`
 // Fetch data dari API
 const response = await fetch(endpoint);
 if (!response.ok) {

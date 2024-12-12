@@ -6,7 +6,7 @@ import axios from 'axios';
 let reversedMessages = [];
 
 async function loadMessages() {
-  const response = await axios.get('http://localhost:3000/messages');
+  const response = await axios.get('https://pikm-pj8ksyy1gtrn.deno.dev/messages');
   reversedMessages = response.data.reverse();
 }
 

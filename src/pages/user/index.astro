@@ -92,7 +92,7 @@ import Layout from '../../layouts/BaseLayout.astro';
 
 
     if (user) { // Pastikan bahwa `user` ada
-    const endpoint = `http://localhost:3000/users/${user}`;
+    const endpoint = `https://pikm-pj8ksyy1gtrn.deno.dev/user/${user}`;
 
     try {
         const response = await fetch(endpoint);

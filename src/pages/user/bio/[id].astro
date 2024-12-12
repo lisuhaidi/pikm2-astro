@@ -6,7 +6,7 @@ import EditBio from '../../../components/EditBio.jsx';
 
 const {id} = Astro.params
 
-const endpoint = `http://localhost:3000/users/${id}`
+const endpoint = `https://pikm-pj8ksyy1gtrn.deno.dev/user/${id}`
 // Fetch data dari API
 const response = await fetch(endpoint);
 if (!response.ok) {

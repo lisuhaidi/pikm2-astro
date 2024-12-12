@@ -4,7 +4,7 @@ const messageId = 123;  // ID pesan yang dikirim
 
 const {likes, _id} = Astro.props
 
-const likesEndPoint = `http://localhost:3000/messages/${_id}/like`
+const likesEndPoint = `https://pikm-pj8ksyy1gtrn.deno.dev/messages/${_id}/like`
 
 ---
 
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
             totalLikesElement.textContent = totalLikes;
 
             // Tentukan endpoint berdasarkan ID
-            const endpoint = `http://localhost:3000/messages/${id}/like`;
+            const endpoint = `https://pikm-pj8ksyy1gtrn.deno.dev/messages/${id}/like`;
 
             // Lakukan fetch ke endpoint
             fetch(endpoint, {

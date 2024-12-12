@@ -40,7 +40,7 @@ export default function PostForm() {
     };
 
     try {
-      const res = await axios.post('http://localhost:3000/messages', postData, {
+      const res = await axios.post('https://pikm-pj8ksyy1gtrn.deno.dev/messages', postData, {
         headers: {
           'Content-Type': 'application/json',
         },

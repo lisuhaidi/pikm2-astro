@@ -10,7 +10,7 @@ export default function DeletePostButton({ id }) {
     setIsLoading(true); // Mulai loading
 
     try {
-      const response = await axios.delete(`http://localhost:3000/messages/${id}`, {
+      const response = await axios.delete(`https://pikm-pj8ksyy1gtrn.deno.dev/messages/${id}`, {
         headers: {
           'Content-Type': 'application/json',
         },
