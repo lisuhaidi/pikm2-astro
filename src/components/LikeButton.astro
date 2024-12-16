@@ -61,7 +61,7 @@ const likesEndPoint = `https://pikm-pj8ksyy1gtrn.deno.dev/messages/${_id}/like`
 
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('astro:page-load', () => {
     const buttons = document.querySelectorAll('.like-button');
 
     buttons.forEach((button) => {

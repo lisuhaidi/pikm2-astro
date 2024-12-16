@@ -20,7 +20,7 @@ await loadMessages();
 
 ---
 <Layout title="Beranda">
-  <div class="homebox">
+  <main class="homebox">
     {reversedMessages.map((message) => (
     
       <Card 
@@ -33,7 +33,7 @@ await loadMessages();
       />
 
     ))}
-  </div>
+  </main>
 </Layout>
 
 <style>

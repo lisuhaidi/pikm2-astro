@@ -15,15 +15,14 @@ try {
   message = response.data;
 } catch (error) {
   throw new Error('Failed to fetch message: ' + error.message);
+  message = { error: true, message: 'Failed to load the message. Please try again later.' };
 }
-
-console.log(message.user);
 
 ---
 <Layout title="Postingan">
-  <div class="postbox">
+  <div class="postbox" client:load>
     <div class="menu-box">
-      <button id="backButton">
+      <button id="backButton" >
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
       </button>
       <EditAndDeleteMenu
@@ -32,14 +31,21 @@ console.log(message.user);
         client:only="react" 
         />
     </div>
-    <CardMessage 
-      href={`#`}
-      text={message.text}
-      likes={message.likes}
-      createdAt={message.createdAt}
-      _id={message._id}
-      user={message.user}
-    />
+    {message.error ? (
+      <div class="error-box">
+        <p>{message.message}</p>
+      </div>
+    ) : (
+      <CardMessage 
+        href={`#`}
+        text={message.text}
+        likes={message.likes}
+        createdAt={message.createdAt}
+        _id={message._id}
+        user={message.user}
+      />
+    )}
+    
   </div>
 </Layout>
 
@@ -84,11 +90,17 @@ console.log(message.user);
   #idPost {
     display: none;
   }
+
+  [data-no-swup] {
+  transition: none !important;
+}
+
 </style>
 
 <script>
   // back button
   document.querySelector('#backButton').addEventListener('click', () => {
+    console.log('Back button clicked');
     if (document.referrer) {
       history.back();
     } else {

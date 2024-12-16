@@ -11,6 +11,8 @@ const navbarLinks = [
   { href: "/", label: "" },
   { href: "/post", label: "Post" },
 ];
+
+import { ClientRouter } from 'astro:transitions';
 ---
 <!DOCTYPE html>
 <html lang="id">
@@ -19,15 +21,21 @@ const navbarLinks = [
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title}</title>
   <link rel="stylesheet" href="../styles/global.css" />
+
+  <link rel="icon" type="image/x-icon" href="favicon.svg">
+  <ClientRouter />
+
 </head>
 <body>
   <Navbar class="nav"/>
-  <main>
+  <main id="swup" class="wrapper" transition:animate="slide">
     <slot />
   </main>
   <footer>
     <p>&copy; 2024 My Astro Website</p>
   </footer>
+
+
 </body>
 <style>
   body {
@@ -57,7 +65,10 @@ const navbarLinks = [
   
 </style>
 
+
 <script>
+
+
   const username = localStorage.getItem('username');
 
   if (!username) {
@@ -67,4 +78,12 @@ const navbarLinks = [
   }
 
 </script>
+<!-- <script type="module">
+  import Swup from 'swup';
+
+  // Inisialisasi Swup
+  const swup = new Swup();
+</script> -->
+
+
 </html>
