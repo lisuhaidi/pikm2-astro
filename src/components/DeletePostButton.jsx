@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PostPopup from './PostPopup';
-import axios from 'axios';
 
 export default function DeletePostButton({ id }) {
   const [isDeleted, setIsDeleted] = useState(false); // State untuk mengontrol popup
@@ -10,23 +9,25 @@ export default function DeletePostButton({ id }) {
     setIsLoading(true); // Mulai loading
 
     try {
-      const response = await axios.delete(`https://pikm-pj8ksyy1gtrn.deno.dev/messages/${id}`, {
+      const response = await fetch(`https://pikm-pj8ksyy1gtrn.deno.dev/messages/${id}`, {
+        method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
-      if (response.status === 200) {
-        setIsDeleted(true); // Tampilkan popup jika berhasil dihapus
+      if (response.ok) {
+        setIsDeleted(true); // Show popup if deletion was successful
       } else {
-        throw new Error('Gagal menghapus data');
+        throw new Error('Failed to delete data');
       }
     } catch (error) {
-      console.error('Terjadi kesalahan:', error);
-      setIsLoading(false); // Hentikan loading jika terjadi kesalahan
+      console.error('Error occurred:', error);
+      setIsLoading(false); // Stop loading if an error occurs
     }
   };
 
+  
   return (
     <div>
       <button className="button-delete" onClick={handleDelete} disabled={isLoading}>

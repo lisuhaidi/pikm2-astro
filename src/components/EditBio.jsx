@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import ReactQuill from 'react-quill'; // Import ReactQuill
 import 'react-quill/dist/quill.snow.css'; // Import the snow theme style
-import axios from 'axios'; // Import axios
 import PostPopup from './PostPopup';
 
 export default function EditForm({id, bio}) {
@@ -29,13 +28,15 @@ export default function EditForm({id, bio}) {
     };
 
     try {
-      const response = await axios.put(`https://pikm-pj8ksyy1gtrn.deno.dev/user/update-bio/${id}`, postData, {
+      const response = await fetch(`https://pikm-pj8ksyy1gtrn.deno.dev/user/update-bio/${id}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify(postData), // Convert postData to JSON
       });
-
-      if (response.status === 200) {
+    
+      if (response.ok) { // Check if response status is 200-299 range
         setResponseMessage('Bio updated successfully!');
         setMessageText(''); // Clear the editor content
         setIsPosted(true);
@@ -45,6 +46,7 @@ export default function EditForm({id, bio}) {
     } catch (error) {
       setResponseMessage('An error occurred: ' + error.message);
     }
+    
   };  
   return (
     <div className="formbox">

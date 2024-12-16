@@ -3,7 +3,6 @@ import { useState } from 'react';
 import ReactQuill from 'react-quill'; // Impor ReactQuill
 import 'react-quill/dist/quill.snow.css'; // Impor style untuk tema snow
 import PostPopup from './PostPopup';
-import axios from 'axios'; // Impor Axios
 
 export default function PostForm() {
   const [messageText, setMessageText] = useState('');
@@ -40,22 +39,25 @@ export default function PostForm() {
     };
 
     try {
-      const res = await axios.post('https://pikm-pj8ksyy1gtrn.deno.dev/messages', postData, {
+      const response = await fetch('https://pikm-pj8ksyy1gtrn.deno.dev/messages', {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify(postData),
       });
-
-      if (res.status === 200 || res.status === 201) {
+    
+      if (response.ok) {
         setResponseMessage('Post created successfully!');
-        setMessageText(''); // Clear the editor
+        setMessageText(''); // Clear the editor content
         setIsPosted(true);
       } else {
         setResponseMessage('Failed to create post.');
       }
-    } catch (error) {      
+    } catch (error) {
       setResponseMessage('An error occurred: ' + error.message);
     }
+    
   };
 
   // mulai return component

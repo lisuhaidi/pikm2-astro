@@ -13,6 +13,7 @@ const navbarLinks = [
 ];
 
 import { ClientRouter } from 'astro:transitions';
+
 ---
 <!DOCTYPE html>
 <html lang="id">
@@ -28,7 +29,7 @@ import { ClientRouter } from 'astro:transitions';
 </head>
 <body>
   <Navbar class="nav"/>
-  <main id="swup" class="wrapper" transition:animate="slide">
+  <main transition:animate="fade">
     <slot />
   </main>
   <footer>

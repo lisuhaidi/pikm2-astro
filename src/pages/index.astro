@@ -6,34 +6,33 @@ import axios from 'axios';
 let reversedMessages = [];
 
 async function loadMessages() {
-  const response = await axios.get('https://pikm-pj8ksyy1gtrn.deno.dev/messages');
-  reversedMessages = response.data.reverse();
+  const response = await fetch('https://pikm-pj8ksyy1gtrn.deno.dev/messages');
+  if (!response.ok) {
+    throw new Error('Failed to load messages');
+  }
+  const data = await response.json();
+  reversedMessages = data.reverse();
 }
-
 await loadMessages();
-
-
-// const response = await fetch('http://localhost:3000/messages');
-// const messages = await response.json();
-// const reversedMessages = messages.reverse();
-// untuk props
 
 ---
 <Layout title="Beranda">
-  <main class="homebox">
+  <div class="homebox">
     {reversedMessages.map((message) => (
     
-      <Card 
-        href={`/message/${message._id}`}
-        text={message.text}
-        likes={message.likes}
-        createdAt={message.createdAt}
-        _id={message._id}
-        user={message.user}
-      />
+    <div transition:animate="fade">
+        <Card 
+          href={`/message/${message._id}`}
+          text={message.text}
+          likes={message.likes}
+          createdAt={message.createdAt}
+          _id={message._id}
+          user={message.user}
+        />
+      </div>
 
     ))}
-  </main>
+  </div>
 </Layout>
 
 <style>
